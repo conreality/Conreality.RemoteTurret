@@ -3,13 +3,14 @@
 #define RC_CONFIG
 
 
+
 //RF pins
 #define CE_PIN 10
 #define SS_PIN 9
 
 //FUNDUINO or custom joystick
-#define FUNDUINO 1
-#define CUSTOM_JOYSTICK 0
+#define FUNDUINO 0
+#define CUSTOM_JOYSTICK 1
 
 //X deadzones
 #define X_LOWER_DEADZONE 110
@@ -57,8 +58,8 @@ enum InputMode{
 //custom configuration
 #if CUSTOM_JOYSTICK == 1
 
-    #define AXIS_X 1
-    #define AXIS_Y 0
+    #define AXIS_X 0
+    #define AXIS_Y 1
 
     #define BTN_TRIGGER 0
     #define BTN_FLASHLIGHT 1

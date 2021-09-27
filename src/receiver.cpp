@@ -3,8 +3,13 @@
 #include "nRF24L01.h"
 #include "RF24.h"
 
+
 //#define PURE
 #ifndef PURE
+
+#ifndef RECEIVER_ADDRESS
+#define RECEIVER_ADDRESS 2
+#endif
 
 Receiver::Receiver(int ce, int ss)
 {
@@ -83,15 +88,16 @@ bool Receiver::update()
         uint8_t from;
         if (_manager->recvfromAck(_buf, &len, &from))
         {
-            _axis0 = _buf[0];
-            _axis1 = _buf[1];
+            if(_buf[0]!=RECEIVER_ADDRESS) return false;
+            _axis0 = _buf[1];
+            _axis1 = _buf[2];
 
-            byte buttonsCount = _buf[2];
+            byte buttonsCount = _buf[3];
 
             for (int i = 0; i < buttonsCount; i++)
             {
                 
-                _buttons[i] = _buf[i + 3];
+                _buttons[i] = _buf[i + 4];
                 if(_pressedFlags[i]==1&&_buttons[i]==0)
                     _pressedFlags[i]=0;
                 if (_pressedFlags[i]==2&&_buttons[i]==1)//wait for release

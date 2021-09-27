@@ -8,9 +8,7 @@
 #include <RH_NRF24.h>
 #include <SPI.h>
 
-#ifndef RECEIVER_ADDRESS
-#define RECEIVER_ADDRESS 2
-#endif
+
 
 class Receiver{
     public:

@@ -31,7 +31,7 @@ Adafruit_PWMServoDriver pwm1 = Adafruit_PWMServoDriver(0x40);
  *                                                             
  */
 
-Servo360Ada *servo;
+Servo180 *servo;
 Servo180 *servoVertical;
 bool toggleStates[BUTTONS_COUNT];
 void setup()
@@ -43,7 +43,7 @@ void setup()
   pwm1.setOscillatorFrequency(26500000);
   pwm1.setPWMFreq(70); // This is the maximum PWM frequency
 
-  servo = new Servo360Ada(pwm1, 0, SERVO360_MIDDLEPOINT);
+  servo = new Servo180(pwm1, 0);
   servoVertical = new Servo180(pwm1, 1);
 
   for (int i = 0; i < BUTTONS_COUNT; i++)
@@ -62,7 +62,7 @@ uint32_t __debug_timeout=0;
 
 void loop()
 {
-  int valueX = map(abs(AXIS_X_VALUE), 0, 128, 0, 300);
+  int valueX = map(abs(AXIS_X_VALUE), 0, 128, 0, 10);
   int valueY = map(abs(AXIS_Y_VALUE), 0, 89, 0, 10);
 
   if (AXIS_X_DIRECTION < 0)
@@ -71,8 +71,8 @@ void loop()
   if (AXIS_X_DIRECTION > 0)
     servo->turnLeft(valueX); //turn right
 
-  if (AXIS_X_DIRECTION == 0) //brake
-    servo->brake();          //brake using Active or Passive braking
+  // if (AXIS_X_DIRECTION == 0) //brake
+  //   servo->brake();          //brake using Active or Passive braking
 
   if (AXIS_Y_DIRECTION > 0)
     servoVertical->turnRight(valueY); //turn left
@@ -138,5 +138,6 @@ void loop()
   #endif
 
   receiver.update(); //receive new packet
+  servo->tick();
   servoVertical->tick();
 }
